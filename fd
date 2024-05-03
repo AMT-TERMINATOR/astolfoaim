@@ -1,0 +1,16 @@
+getgenv().__astofloaim_show_debug_info = true -- Show debug info
+getgenv().__astolfoaim_api             = nil --  No API Overwrite
+getgenv().AstolfoAimDomain             = nil --  No API Fetch Overwrite
+getgenv().AstolfoAPIDomain             = nil --  No Socket API Overwrite
+
+-- Check for custom socket server running on local:5595
+if pcall(game.HttpGetAsync,game,'http://127.0.0.1:5595/') then getgenv().AstolfoAPIDomain='http://127.0.0.1:5595' end
+-- Check for custom api server running on local:5500
+if pcall(game.HttpGetAsync,game,'http://127.0.0.1:5500/script/api.lua') then getgenv().AstolfoAimDomain='http://127.0.0.1:5500/script' end
+
+-- Get the URL to fetch for the loader
+local url = (AstolfoAimDomain and AstolfoAimDomain..'/' or 'https://astolfoaim.femboy.cafe/')..'web-ui.lua'
+-- Fetch the script
+local script = game:HttpGetAsync(url)
+-- Load it
+local api = loadstring(script,'wui')('web-ui');
